@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Copy Bookmarklet</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+
+<h2 id="title">Bookmarklet</h2>
+
+<button id="copyBtn">Copy Bookmarklet</button>
+
+<p id="msg"></p>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+fetch("bookmarklets.json")
+.then(r => r.json())
+.then(data => {
+
+const code = data[id];
+
+if (!code) {
+document.getElementById("msg").textContent =
+"Bookmarklet not found";
+return;
+}
+
+document.getElementById("title").textContent = id;
+
+document.getElementById("copyBtn")
+.onclick = async () => {
+
+await navigator.clipboard.writeText(code);
+
+document.getElementById("msg")
+.textContent = "Copied!";
+};
+
+});
+</script>
+
+</body>
+</html>
