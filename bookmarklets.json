@@ -1,18 +1,15 @@
 {
-"clean-page": {
-"title": "Remove Distractions",
-"description": "Removes headers, footers, navigation bars and clutter so you can focus on reading content.",
-"uses": [
-"Reading articles",
-"Studying documentation",
-"Research",
-"Cleaner printing view"
-],
-"concepts": [
-"DOM Selection",
-"Element Removal",
-"Page Restructuring"
-],
-"code": "javascript:(()=>{const tags=['header','footer','nav','aside','iframe'];tags.forEach(tag=>{document.querySelectorAll(tag).forEach(e=>e.remove())});document.body.style.width='100%';document.body.style.margin='40px auto'})();"
-}
+  "darkmode": {
+    "name": "Dark Mode",
+    "icon": "🌙",
+    "description": "Enable dark mode on any website.",
+    "code": "javascript:(function(){alert('Dark Mode');})();"
+  },
+
+  "youtube": {
+    "name": "YouTube",
+    "icon": "▶️",
+    "description": "Open YouTube helper.",
+    "code": "javascript:(function(){alert('YouTube');})();"
+  }
 }
