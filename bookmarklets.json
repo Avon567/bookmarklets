@@ -1,0 +1,4 @@
+{
+  "darkmode": "javascript:(function(){alert('Dark Mode');})();",
+  "youtube": "javascript:(function(){alert('YouTube');})();"
+}
