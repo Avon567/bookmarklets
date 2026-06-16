@@ -1,43 +1,210 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 <head>
-<title>Copy Bookmarklet</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bookmarklet Library</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Inter,system-ui,sans-serif;
+background:#0f172a;
+color:#fff;
+padding:40px 20px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+}
+
+.card{
+background:#1e293b;
+border:1px solid #334155;
+border-radius:20px;
+padding:32px;
+box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+.badge{
+display:inline-block;
+padding:8px 14px;
+background:#2563eb;
+border-radius:999px;
+font-size:14px;
+margin-bottom:20px;
+}
+
+h1{
+font-size:38px;
+margin-bottom:15px;
+}
+
+.description{
+font-size:18px;
+line-height:1.7;
+color:#cbd5e1;
+margin-bottom:30px;
+}
+
+.copy-btn{
+width:100%;
+padding:18px;
+font-size:18px;
+font-weight:bold;
+border:none;
+border-radius:14px;
+cursor:pointer;
+background:#22c55e;
+color:white;
+transition:.2s;
+margin-bottom:20px;
+}
+
+.copy-btn:hover{
+transform:translateY(-2px);
+}
+
+.success{
+display:none;
+background:#14532d;
+padding:15px;
+border-radius:12px;
+margin-bottom:25px;
+}
+
+.section{
+margin-top:35px;
+}
+
+.section h2{
+margin-bottom:15px;
+font-size:24px;
+}
+
+ul{
+padding-left:20px;
+}
+
+li{
+margin-bottom:10px;
+line-height:1.6;
+color:#cbd5e1;
+}
+
+.install{
+background:#0f172a;
+padding:20px;
+border-radius:14px;
+margin-top:15px;
+}
+
+.footer{
+margin-top:30px;
+text-align:center;
+color:#94a3b8;
+font-size:14px;
+}
+</style>
+
 </head>
 <body>
 
-<h2 id="title">Bookmarklet</h2>
+<div class="container">
+<div class="card">
 
-<button id="copyBtn">Copy Bookmarklet</button>
+<div class="badge">JavaScript Bookmarklet</div>
 
-<p id="msg"></p>
+<h1 id="title">Loading...</h1>
+
+<p class="description" id="description"></p>
+
+<button class="copy-btn" id="copyBtn">
+📋 Copy Bookmarklet
+</button>
+
+<div class="success" id="success">
+✅ Bookmarklet copied successfully.
+</div>
+
+<div class="section">
+<h2>Uses</h2>
+<ul id="uses"></ul>
+</div>
+
+<div class="section">
+<h2>Learning Concepts</h2>
+<ul id="concepts"></ul>
+</div>
+
+<div class="section">
+<h2>Installation</h2>
+
+<div class="install">
+<ol>
+<li>Click the Copy Bookmarklet button.</li>
+<li>Create a new bookmark in your browser.</li>
+<li>Paste the copied code into the URL field.</li>
+<li>Save the bookmark.</li>
+<li>Visit any webpage and click the bookmark.</li>
+</ol>
+</div>
+</div>
+
+<div class="footer">
+Bookmarklet Library
+</div>
+
+</div>
+</div>
 
 <script>
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
 fetch("bookmarklets.json")
-.then(r => r.json())
-.then(data => {
+.then(res=>res.json())
+.then(data=>{
 
-const code = data[id];
+const item = data[id];
 
-if (!code) {
-document.getElementById("msg").textContent =
-"Bookmarklet not found";
+if(!item){
+document.body.innerHTML="<h1 style='padding:40px'>Bookmarklet not found.</h1>";
 return;
 }
 
-document.getElementById("title").textContent = id;
+document.getElementById("title").textContent=item.title;
+document.getElementById("description").textContent=item.description;
+
+const uses=document.getElementById("uses");
+item.uses.forEach(u=>{
+const li=document.createElement("li");
+li.textContent=u;
+uses.appendChild(li);
+});
+
+const concepts=document.getElementById("concepts");
+item.concepts.forEach(c=>{
+const li=document.createElement("li");
+li.textContent=c;
+concepts.appendChild(li);
+});
 
 document.getElementById("copyBtn")
-.onclick = async () => {
+.addEventListener("click",async()=>{
 
-await navigator.clipboard.writeText(code);
+await navigator.clipboard.writeText(item.code);
 
-document.getElementById("msg")
-.textContent = "Copied!";
-};
+document.getElementById("success")
+.style.display="block";
+});
 
 });
 </script>
